@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang ="zh" xmls:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+</head>
+
+<!-- springboot不推荐使用jsp -->
+<title>Title</title>
+<link rel="stylesheet"
+	href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<style>
+#container {
+	width: 600px;
+	margin: 10px auto;
+}
+
+#container .selected {
+	background: #337ab7;
+}
+</style>
+<script type="text/javascript" src="../js/jquery-3.1.0.js"></script>
+</head>
+<script>
+	$(document).ready(function() {
+		$("#add").click(function() {
+			location.href = "showAdd";
+		})
+		var id = 0;
+		$(".emp").click(function() {
+			$(".emp").removeClass("selected");
+			$(this).addClass("selected");
+			id=$(this).data("id");
+		})
+		$("#update").click(function() {
+			if(id>0){
+				location.href = "showUpdate?id=" +id;
+			}else{
+				alert("请选中数据");
+			}
+		})
+		$("#delete").click(function() {
+			if(id>0){
+				location.href = "delete?id=" +id;
+			}else{
+				alert("请选中数据");
+			}
+		})
+	})
+</script>
+<body>
+	<div id="container">
+		<table class="table table-hover table-striped table-bordered">
+			<tr>
+				<th>Id</th>
+				<th>名字</th>
+				<th>性别</th>
+				<th>年龄</th>
+				<th>部门</th>
+			</tr>
+<!-- 	springboot推荐使用thymeleaf模板引擎	 -->	
+<!-- th:each对应mv.addObject("list", list); -->
+				<tr class="emp" th:each="emp:${list }" th:data-id="${emp.id}">
+					<td th:text="${emp.id }"></td>
+					<td th:text="${emp.name }"></td>
+					<td th:text="${emp.gender }"></td>
+					<td th:text="${emp.age }"></td>
+					<td th:text="${emp.dep.name }"></td>
+					
+				</tr>
+		</table>
+		<button type="button" class="btn btn-primary" id="add">新增</button>
+		<button type="button" class="btn btn-primary" id="update">修改</button>
+		<button type="button" class="btn btn-warning" id="delete">删除</button>
+	</div>
+</body>
+</html>

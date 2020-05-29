@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 映射文件 -->
+<!DOCTYPE mapper 
+PUBLIC   "-//mybatis.org//DTD Mapper 3.0//EN"  
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.dao.EmployeeDao">
+	<!-- 标签名对应语句，id对用方法名 -->
+<!-- 与resultMap id属性对应 -->
+	<select id="search" resultMap="EmpAndDep">
+		select e.*,d.name as depname 
+		from emp as e 
+		left join dep as d 
+		on e.dep_id=d.id order by e.id desc
+	</select>
+	<!-- 无法使用方法重载 -->
+	<select id="searchById" resultMap="EmpAndDep">
+		select * from emp as e left join dep  as d  on e.dep_id=d.id where
+		e.id=#{id}
+	</select>
+	
+	<!--多表关联  -->
+	<resultMap type="com.example.demo.entity.Employee" id="EmpAndDep">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="gender" column="gender" />
+		<result property="age" column="age" />
+		<association property="dep" javaType="com.example.demo.entity.Department">
+			<id property="id" column="dep_id" />
+			<result property="name" column="depname" />
+		</association>
+	</resultMap>
+	
+	<insert id="add">
+		insert into emp
+		(name,gender,age,dep_id )values(#{name},#{gender},#{age},#{dep.id })
+	</insert>
+	<update id="update">
+		update emp set
+		name=#{name},gender=#{gender},age=#{age},dep_id=#{dep.id} where id=#{id}
+	</update>
+	<delete id="delete">
+		delete from emp where id=#{id}
+	</delete>
+	
+	<update id="updateByDep">
+		update emp set
+		dep_id=null where dep_id=#{depid}
+	</update>
+</mapper> 
+    
