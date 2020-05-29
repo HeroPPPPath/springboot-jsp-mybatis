@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="springbootjsp.zzq.dao.UserDao">
+
+
+ <!--resultType直接写对象的全类名 -->
+    <select id="getUser" resultType="springbootjsp.zzq.entity.User" parameterType="int">
+        select * from user where userId=#{id}
+    </select>
+    
+    <select id="getUsers" resultType="springbootjsp.zzq.entity.User">
+    	select * from user
+    </select>
+    
+    <insert id="addUser" parameterType="springbootjsp.zzq.entity.User">
+    	insert into user(userId, userName, userPassword) values(#{userId}, #{userName}, #{userPassword})
+    </insert>
+    
+</mapper>
